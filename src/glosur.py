@@ -22,7 +22,7 @@ def process_ls(output):
         x = " ".join(x.split('['))
         numb = list(map(int, re.split(' ', x.strip())[4:5])) 
         #numb = 5
-        lis.append( ( str(re.split(' ', x.strip(), maxsplit=8)[4:]) ) )
+        lis.append( ( str(re.split(' ', x.strip(), maxsplit=8)[4:]:q) ) )
     #newList = [[l[i] for i in listi] for l in listi]
     print(lis)
     numbers = []
@@ -71,7 +71,27 @@ def sort_names(names):
 def rank_hand(hand):
     return []
 
+# Day 1
+def test(*args, **kwargs):
+    '''
+    This is at test function
 
+    Call it att will.
+    '''
+    print(args)
+    print(kwargs)
+
+# Day 2
+s = set()
+for i in range(30):
+    s.add(str(i))
+for i in sorted(s):
+    print(i)
+
+for i in enumerate(s):
+    print(i)
+for i, n in enumerate(s):
+    print(i, n)
 
 # Day 3
 def my_filter():
@@ -228,9 +248,12 @@ urllib.request.urlopen('http://....?'Name-'sdf')
 
 import urllib.pars.urlencode
 #resp = urlopen('http...')
-data = { 'address': 'sdf%s', 'name': 'sdf'}
-res = urlopen('http://apis.is...sdf %s', % urlencode(data) )
-for comp in 
+def company_by_addr(addr):
+    data = { 'address': addr}
+    resp = urlopen('http://apis.is/company?%s' % urlencode(data) )
+    res = json.loads(resp.read()).decode('utf-8'))
+    for comp in res['results']:
+        print(comp['name'])
 
 print(json.loads(res.read()).decode('utf-8'))
 

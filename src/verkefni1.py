@@ -71,11 +71,15 @@ def flatten(aList):
     #key = dict(zip(aList,res))
     #print('')
     #res.sort(key=aList.get)
-    res = sorted(res, key=lambda x: aList )
+    #res = sorted(res, key=lambda x: aList )
+    tmp = []
+    #for x in aList:
+    #    tmp.append(int(x)
+    res = sorted(res, key=lambda x: int(aList[res.index(x)]))
     #print('')
     #combined.sort()
-    print( res )
-    list(lambda x: aList)
+    print( new )
+    #list(lambda x: aList)
     print('')
     #res = [ n for x, n in combined]
     #res.sort(key=aList,reverse=True)
