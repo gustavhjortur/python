@@ -81,7 +81,7 @@ def test(*args, **kwargs):
     print(args)
     print(kwargs)
 
-# Day 2
+# Day 2 - 1
 s = set()
 for i in range(30):
     s.add(str(i))
@@ -92,6 +92,67 @@ for i in enumerate(s):
     print(i)
 for i, n in enumerate(s):
     print(i, n)
+
+l1 = [1,3,5,7]
+l2 = [2,4,6,8]
+zip(l1,l2) #setur saman listana og skilar itterator. (single use)
+
+# Day 2 - 1
+l1 = [1,3,5,7]
+2 in l2
+True
+'ab' in 'abcde'
+True
+'yay'.center(12)
+'    yay    '
+'yay'.center(12,'-')
+'----yay----'
+'yay'.rjust(12,'-')
+'--------yay'
+s = 'tetta er gaman'
+s.capitalize()
+'Tetta er gaman'
+s.title()
+'Tetta Er Gaman'
+s.isdecimal()
+False
+
+ord('a')
+97
+ord('A')
+65
+chr(65)
+'A'
+cards = 'A23456789TGQK'
+cards.index('K')  # kastar villu ef er ekki til
+12
+cards.find('K')   # skilar -1 ef er ekki til
+12
+cards[:cards.find('6')]
+'A2345'
+>>> long = '''
+this
+awsome string
+has\tso
+many linss'''
+>>> long.splitlines()
+['', 'this', 'awsome string', 'has\tso', 'many linss']
+>>> long.splitlines(True)
+['\n', 'this\n', 'awsome string\n', 'has\tso\n', 'many linss']
+long.split() #splittar 'a 0llum whitespaceum og hendir non printable
+>>> ' '.join(long.split())
+'this awsome string has so many linss'
+long.strip()
+'this\nawsome string\nhas\tso\nmany linss'
+>>> long.strip('\nt')
+'his\nawsome string\nhas\tso\nmany linss'
+lines = data.splitlines()[1:]
+results[]
+for line in linest:
+    results.append(line.split('\t'))
+# == results = [ line.split('\t') for line in lines ]
+[ x**2 for x in range(10) if x % 2 == 1 ]
+
 
 # Day 3
 def my_filter():
@@ -272,8 +333,78 @@ def fun():
         logger.exception('sdf', exc_info=True)
         return traceback.format.
     
+# Day 7 - 1
+# (verkefni 4)
+
+#import sys #Alskonar system tools
+# Fari[ yfir virkni og notkun a argparse
+import argparse
+import sys
+import re
+from collections import deque
 
 
+def regex(string):
+    try:
+        return re.compile(string)
+    except Exception as ex:
+        raise argparse.ArgumentTypeError('Invalid regular expression\n%s' % ex.msg)
+
+parser = argparse.ArgumentParser(description='Grep some stuff')
+parser.add_argument('pattern', metavar='RE', type=regex, help='Regular expression')
+parser.add_argument('input', metavar='N', type=argparse.FileType('r'), default=sys.stdin, nargs='?', help='Input')
+parser.add_argument('-v', '--invert-match', default=False, action='store_true',  help='Select non-matching lines')
+parser.add_argument('-c', '--count', default=False, action='store_true',  help='Count matching lines')
+parser.add_argument('-o', '--only-matching', default=False, action='store_true',  help='Print only matched parts of matching lines')
+parser.add_argument('-n', '--line-number', default=False, action='store_true',  help='Print each line of output with 1-based line number')
+parser.add_argument('-C', '--context', type=int, metavar='NUM', default=0,  help='Print %(metavar)s lines of context (default: %(default)s)')
+
+args = parser.parse_args()
+
+
+def flush_cache(cache):
+    if cache:
+        print('--')
+    for line in cache:
+        output_line(*line)
+    cache.clear()
+
+def output_line(i, line, match=None):
+    if args.count:
+        return
+    if args.line_number:
+        print('%03d:' % i, end=' ')
+    if match and args.only_matching:
+        print(match.group())
+    else:
+        print(line, end='')
+
+cache = deque(maxlen=args.context)
+
+counter = 0
+lines_after_match = 0
+
+for i, line in enumerate(args.input):
+    m = re.search(args.pattern, line)
+    if (m and not args.invert_match) or (args.invert_match and not m):
+        flush_cache(cache)
+        lines_after_match = args.context
+        output_line(i + 1, line, m)
+        counter += 1
+    elif not lines_after_match:
+        cache.append( (i + 1, line) )
+    else:
+        output_line(i + 1, line)
+        lines_after_match -= 1
+
+if args.count:
+    print(counter)
+
+# Day 7 - 2
+import os
+>>> os.system('ls')
+0  # return value
+import subprocess
 
 
 
