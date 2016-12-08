@@ -116,7 +116,7 @@ def release_days(cast, dates, actors):
 
 
 #release_days('data/cast-small.csv', 'data/dates-small.csv', ['Meg Ryan', 'Tom Hanks'] )
-release_days('data/cast.csv', 'data/dates.csv', ['Meg Ryan', 'Tom Hanks'] )
+#release_days('data/cast.csv', 'data/dates.csv', ['Meg Ryan', 'Tom Hanks'] )
 
 # 4.
 def parse_submissions(directory):
@@ -163,6 +163,82 @@ def parse_submissions(directory):
 #parse_submissions('tmp/submissions/28798882/')
 #parse_submissions('tmp/submissions/31250938/')
 #parse_submissions('tmp/submissions/')
+
+# 5.
+def jam(texti):
+    #print(texti)
+    firstList = []
+    for x in texti.splitlines():
+        tmp = x.split(', ')[1:4]#.split('\" with \"')#.split(' and ')
+        #print(tmp)
+        first = (tmp[0]).split(' with ')
+        #firstList.append( lambda y: y in first )
+        firstList.append(first[0])
+        firstList.append(first[1])
+        firstList.append(tmp[1])
+        first = (tmp[2]).split(' and ')
+        print(first)
+        #firstList.append( str(lambda y: y in first) )
+        for y in first:
+            firstList.append( y )
+        #firstList.append(first[0])
+        #firstList.append(first[1])
+        #print(first)
+        #print(x)
+    #print(firstList)
+    secondList = []
+    #for x in firstList:
+        #print(x)
+        #tmp = (x[0].split(' with '))#, x[1] )
+        #print(tmp)
+        #secondList.append(tmp[0])
+        #secondList.append(tmp[1])
+        #secondList.append(x[1])
+        #print(secondList)
+        #print(tmp[0])
+    #print(secondList)
+    returnDict = dict()
+    print()
+    #print(returnList)
+    #print(*returnList.split(', '))
+    for i in firstList:
+        #ii = (i.split(','))
+        #print(returnDict)
+        #print(returnDict.get( i ))
+        if returnDict.get( i ):
+            tmp = returnDict[ i ]
+            tmp += 1
+            returnDict[i] = tmp
+        else:
+            returnDict[i] = int(1) 
+    print(returnDict)
+    return returnDict
+
+
+jam("""1/1/1 22 December 1967, Nicholas Parsons with Derek Nimmo, Clement Freud, Wilma Ewart, excuses for being late.
+2/1/2 29 December 1967, Nicholas Parsons with Derek Nimmo, Clement Freud, Sheila Hancock and Carol Binstead, bedrooms.
+3/1/3 5 January 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Betty Marsden and Elisabeth Beresford, ?
+4/1/4 12 January 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Isobel Barnett and Bettine Le Beau, ?
+5/1/5 20 January 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Andree Melly and Prunella Scales, the brownies
+6/1/6 27 January 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Marjorie Proops and Millie Small, ?
+7/1/7 2 February 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Aimi Macdonald and Una Stubbs, my honeymoon.
+8/1/8 9 February 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Lucy Bartlett and Anona Winn, bloomer.
+9/1/9 17 February 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Andree Melly and Charmian Innes, ?
+10/1/10 23 February 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Barbara Blake and Renee Houston, my first grown-up dress.""")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 import urllib
 import urllib.request
