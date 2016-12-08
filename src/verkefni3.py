@@ -46,6 +46,77 @@ nafnalisti = [{"Nafn": "Linddís", "Fjoldi1": 1, "Fjoldi2": 1},
 { "Nafn": "Þórhildur", "Fjoldi1": 374, "Fjoldi2": 38},]
 
 # 3.
+def release_days(cast, dates, actors):
+    import csv, datetime, calendar
+    #open('fil', encodinc) af f:
+    #    read = csv.reader(f)
+    #    csvdata = list(reader)
+    #print(datetime.datetime.today().weekday())
+    #print(datetime.date(2016,12,8).isoweekday())
+    #print(calendar.day_name[datetime.date.today().weekday()])
+    moviList = []
+    with open(cast) as csvfile:
+        reader = csv.DictReader(csvfile)
+        #for name in actors:
+        for row in reader:
+            for name in actors:
+                if row['name'] == name:
+                    #print(row['title'], row['year'], row['name'])
+                    moviList.append([row['title'], row['year']])
+    #print()
+    returnDict = dict()
+    returnList = []
+    read = []
+    with open(dates) as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            if row['country'] == 'USA':
+                #print('asd')
+                read.append(row)
+            else:
+                pass
+                #print('obbosiii')
+                #next(row)
+            #print(row)
+
+        #print(*read)
+        for f in read:
+            #print(f['title'])
+            for titill in moviList:
+                #print(titill[1])
+                #print( f['title'],  titill[0], f['country'], 'USA' )
+                if ( f['title'] == titill[0] and f['country'] == 'USA'
+                     and f['year'] == titill[1] ):
+                    #print(f['title'], f['country'], f['date'])
+                    WeekDayNumber = ( datetime.date(int((f['date']).split('-')[0]),
+                           int((f['date']).split('-')[1]),
+                           int((f['date']).split('-')[2])).isoweekday() )
+                    returnList.append( [WeekDayNumber, f['title']] )
+                    #returnDict = {WeekDayNumber : {row['title']} } 
+                    #returnDict[WeekDayNumber] = row['title']
+    #print(returnList)
+    #print()
+    #returnList.sort()
+    for i in returnList:
+        #print(i[0])
+        if returnDict.get( i[0] ):
+            tmp = returnDict[ i[0] ]
+            tmp.add(i[1])
+            #print(tmp)
+            returnDict[i[0]] = tmp
+            #returnDict[i[0]] = returnDict[ i[0] ].add(i[1])
+        else:
+            returnDict[i[0]] = { i[1] }
+        #for d in i:
+        #    print(d )
+    print(returnDict)
+    return returnDict
+#DictReader
+#Sniffer
+
+
+#release_days('data/cast-small.csv', 'data/dates-small.csv', ['Meg Ryan', 'Tom Hanks'] )
+release_days('data/cast.csv', 'data/dates.csv', ['Meg Ryan', 'Tom Hanks'] )
 
 # 4.
 def parse_submissions(directory):
@@ -91,7 +162,7 @@ def parse_submissions(directory):
 
 #parse_submissions('tmp/submissions/28798882/')
 #parse_submissions('tmp/submissions/31250938/')
-parse_submissions('tmp/submissions/')
+#parse_submissions('tmp/submissions/')
 
 import urllib
 import urllib.request
