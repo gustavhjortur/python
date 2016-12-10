@@ -169,18 +169,44 @@ def jam(texti):
     #print(texti)
     firstList = []
     for x in texti.splitlines():
-        tmp = x.split(', ')[1:4]#.split('\" with \"')#.split(' and ')
-        #print(tmp)
+        #tmp = x.split(', ')[1:4]#.split('\" with \"')#.split(' and ')
+        tmp = x.split(', ')[1:-1]#.split('\" with \"')#.split(' and ')
+        print(tmp)
         first = (tmp[0]).split(' with ')
+        tmp[0] = ''
         #firstList.append( lambda y: y in first )
         firstList.append(first[0])
         firstList.append(first[1])
-        firstList.append(tmp[1])
-        first = (tmp[2]).split(' and ')
-        print(first)
-        #firstList.append( str(lambda y: y in first) )
-        for y in first:
-            firstList.append( y )
+        if ' and ' not in  tmp[1]:
+            firstList.append(tmp[1])
+            tmp[1] = ''
+        try:
+            if ' and ' in  tmp[2]:
+                tmpList = (tmp[2]).split(' and ')
+                for z in tmpList:
+                    firstList.append(z)
+                tmp[2] = ''
+        except:
+            pass
+        i = 0
+        isPlus = False
+        for z in tmp:
+            print('\t\t', i) ;i += 1
+            if ' and ' in z and isPlus:
+                break
+            if isPlus:
+                print('\t\t', z)
+                firstList.append( z )
+            if z.startswith('plus ') and isPlus == False:
+                print('\t\t\t', z.strip( 'plus ') )
+                isPlus = True
+                firstList.append( z.strip( 'plus ' ) )
+        if tmp[-1].startswith('plus ') == False:
+            first = (tmp[-1]).split(' and ')
+            print('\t', first)
+            #firstList.append( str(lambda y: y in first) )
+            for y in first:
+                firstList.append( y )
         #firstList.append(first[0])
         #firstList.append(first[1])
         #print(first)
@@ -205,13 +231,18 @@ def jam(texti):
         #ii = (i.split(','))
         #print(returnDict)
         #print(returnDict.get( i ))
-        if returnDict.get( i ):
+        if i == '':
+            print('!!!!!!!!!!!!!!!!!!!!!!!!   ', i)
+            pass
+        elif returnDict.get( i ):
             tmp = returnDict[ i ]
             tmp += 1
             returnDict[i] = tmp
         else:
             returnDict[i] = int(1) 
     print(returnDict)
+    for x in returnDict:
+        print(x)
     return returnDict
 
 
@@ -224,7 +255,12 @@ jam("""1/1/1 22 December 1967, Nicholas Parsons with Derek Nimmo, Clement Freud,
 7/1/7 2 February 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Aimi Macdonald and Una Stubbs, my honeymoon.
 8/1/8 9 February 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Lucy Bartlett and Anona Winn, bloomer.
 9/1/9 17 February 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Andree Melly and Charmian Innes, ?
-10/1/10 23 February 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Barbara Blake and Renee Houston, my first grown-up dress.""")
+10/1/10 23 February 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Barbara Blake and Renee Houston, my first grown-up dress.
+213/10/19 27 January 1976, Nicholas Parsons with Clement Freud, Peter Jones, Sheila Hancock and Graeme Garden, puppets.
+23/3/1 31 December 1968, Nicholas Parsons with Kenneth Williams, Derek Nimmo, Clement Freud and Geraldine Jones, ?
+22/2/6 4 November 1968, Nicholas Parsons with Kenneth Williams, Clement Freud and Geraldine Jones, Pythagoras.
+683/52/1 31 December 2007, Nicholas Parsons with Paul Merton, Kenneth Williams, Clement Freud and Graham Norton, plus Derek Nimmo, Peter Jones, Tony Hawks, Sheila Hancock, Gyles Brandreth, Julian Clary, Linda Smith, Jenny Eclair, Ross Noble, Stephen Fry, Chris Neill, Alfred Marks, Barry Took, Tommy Trinder, Kenny Everett and Bob Monkhouse, 40th anniversary special.
+245/11/26 27 April 1977, Nicholas Parsons with Kenneth Williams, Derek Nimmo, Clement Freud and Peter Jones, plus Ian Messiter, my dignity.""")
 
 
 

@@ -148,7 +148,7 @@ long.strip()
 'his\nawsome string\nhas\tso\nmany linss'
 lines = data.splitlines()[1:]
 results[]
-for line in linest:
+for line in lines:
     results.append(line.split('\t'))
 # == results = [ line.split('\t') for line in lines ]
 [ x**2 for x in range(10) if x % 2 == 1 ]
@@ -405,6 +405,176 @@ import os
 >>> os.system('ls')
 0  # return value
 import subprocess
+subprocess.run()
+subprocess.Popen()
+
+import decimal #getur lagad flot errora 
+import fraction
+from fractions import Fraction
+>>> Fraction(numerator=10, denominator=5)
+Fraction(2, 1)
+Fraction('10/5')
+>>> from decimal import Decimal
+>>> Decimal(0.3)
+Decimal('0.299999999999999988897769753748434595763683319091796875')
+>>> Fraction.from_decimal(Decimal(0.3))
+Fraction(5404319552844595, 18014398509481984)
+>>> Fraction.from_decimal(Decimal('0.3'))
+Fraction(3, 10)
+
+# Day 8 - 1
+
+#Metaclass programming til a[ breita class
+#min 31:00 talad um hvernig erfdir eru bunar til og constructors
+
+class Cls:
+    var = 12 # allir instancear fa somu breitu
+
+    def __init__(self):
+        selt.a = 12
+        self.b = 'asd'
+        self.g = a
+        self._bla = 44 #_ meanes privete, __ python specific
+        
+    
+    def fun(self):
+        return 'yay'
+
+    @property  # gerir thetta fall ad property geimslu
+    def prop(self):
+        return self.a
+
+    @prop.setter
+    def prop(self, s):
+        if n % 2 = 1:
+            self.a = n
+        
+    @prop.deleter
+    def prop(self):
+        pass        # kemur i veg fyrir delete
+        del self.a
+
+    @staticmethod
+    def static():
+        return 42
+
+    @classmethod  #Bara notad 'i meta programming
+    def clsmethod(self):
+        return self
+
+    def __repr(self:
+        return 'Cls(a=%s, b=%s)' % (a,b)
+
+    def __str__(self)
+        return 'Cls(a=%s, b=%s)' % (a,b)
+
+    def __getattribute__(self, name):
+        if name == '__dict__' or name in self.__dict__:
+            return super().__getattribute__(name)
+        else:
+            return 42
+
+    def __len__(self):
+        return 4
+
+    def __getitem__(self, item):  #overload [] operatorinn
+        return item * self.a
+
+    def __setitem__(self, item, value):  #overload [] operatorinn
+        print(item, value)
+        return None
+
+    def __call__(self, *args, **kwargs):   #Svona tekur fallid vid ollum parametrum
+        print(args, kwargs)                #c(1,2,3,'asd', name-3)
+getattr saekir oll object sem clasi a
+setattr getur buid til ny setattr(c, 'asd', 12) byr til breituna asd i c og gefur gildid 12
+
+from collections import UserList #inniheldur alskonar "listaverk"
+#math vector daemi
+class Vector:
+    def __init__(self, vec=None)
+        if vec in None:
+            vec = []
+        self.vec = list(vec)
+
+    def __len__(self):
+        return len(self._vec)
+
+    def __repr__(self):
+        return '<%s>' % (', '.join(map(str,self._vec)))
+
+    def __add__(self, other):
+        """
+        self + other =>
+        self.__add__(other)
+        """
+        if not isinstance(other, Vector):
+            raise NotImplemented #ValueError("Don't be silly")
+        if len(self) != len(other)
+            raise ValueError('Lengd mismatch')
+        return Vector( [ a + b for a,b in zip( self._vec, other._vec) ] )
+
+    def __mul__(self, other):
+        """
+        self * other =>
+        self.__mul__(other)
+        """
+        check = [int, float, complex]
+        if not any(map(isinstance,[other]*3, check)):
+            raise NotImplemented #ValueError("Don't be silly")
+        return Vector( [ a * other for a in self._vec ] )
+
+    der __rmul__(self, other):
+        """
+        other * self =>
+        self.__rmul__(other)
+        """
+        return self * other
+# Enum...
+from enum import Enum #IntEnum for int only
+class Suit(Enum):
+    Harts = 1
+    Dimonds = 2
+# collections gott til ad flitja/geima gogn
+from collections import namedtuple
+Data = namedtuple('Data', ['name', 'year','age'])
+# Use:
+d = Data('asd', 123, 321)
+d.name  returnar 'asd'
+
+
+# Day 9 - 2
+import traceback
+               
+try:
+    a = 5
+    b = 0
+    res = a / b
+except ZeroDivisionError as ex:  # 2. / 3, tekur bara thessa villu (as ex litid notad annad er betra)
+    print('Oh no..%s', % ex)
+    return traceback.format_exc()
+except:  # 1. / 3, Basic tekur allt
+    print('Oh no..')
+    raise MyError   #notad td. til ad rename-a villu eda ef rid getum ekki hondlad "alla leid"
+else:
+    return res
+finally:  #keyrir alltaf
+    print('finaly')
+
+
+raise ValueError('Nope')  # kastar villu
+---------------
+#with
+---------------
+PyPi
+
+python3
+yum install python3-pip
+pip-python3 search cowpy
+sudo pip-python3 install cowpy
+
+
+
 
 
 
