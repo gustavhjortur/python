@@ -1,4 +1,4 @@
-This is a Python schript to take a collection of video files and move them and structure them in to folders.
+This is a Python schript to take a collection of video files and move them and structure them in to folders. (https://github.com/gustavhjortur/python/tree/master/src/verkefni4)
 
 To use this script in M$ Windós: TBD...??? (also the path name issue)
 To use this script Mac/Linux run: "./clean $NAME_OF_FILE_FOLDER $NAME_OF_DESTINATION"
