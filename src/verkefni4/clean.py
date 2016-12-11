@@ -14,52 +14,33 @@ Funtion to take list of "video-files" in directory tree: inFolder
 and try to figure out how to organice them into structured tree: outFolder
 exit code: 0 == Normal
 exit code: 1 == Read folder does not excist
-
-ToDo
-- fix use of path names
-- impliment argparser
 '''
 
-def parsNames(name, folder):
+def parsNames(name):
     # Try to figure if it is a TV series
     newName = 'Movies'
     seriesName = ''
-    name = ( name.replace(' ', '.').replace('_', '.') )
-    if (name.lower().endswith('.mp3')):
-        baseName = 'Music'
-        newName = baseName + seriesName
-    elif ('#' in name):
-        print( '# ',  name.split('.#')[0], ' ', name[(name.index('#')+1):(name.index('#')+3)] )
-        baseName = name.split('.#')[0]
-        newName = baseName + seriesName
-    elif ('S' in name):
-        #print('\t\tS found ', name)
-        #print( 'S ',  name.split('.S')[0], ' ', name[(name.index('S')+1):(name.index('S')+3)] )
-        #print( name.replace(' ', '_') )
-        try:
-            seriesName = '/Series' + str(int(name[(name.index('S')+1):(name.index('S')+3)]))
-        except:
-            pass
-        baseName = (name.split('.S')[0]).title()
+    if ('S' in name):
+        print('\t\tS found ', name)
+        print( name.split('.S')[0], ' ', name[(name.index('S')+1):(name.index('S')+3)] )
+        #try:
+        seriesName = '/Series' + str(int(name[(name.index('S')+1):(name.index('S')+3)]))
+        #except:
+        pass
+        baseName = name.split('.S')[0]
         newName = baseName + seriesName
         #if ('S' in name) or ( ('s' + name[name.index('s')+1] ) in name):
-    elif ('.s' in name):
-        if  (name[(name.index('.s')+2):(name.index('.s')+4)] ).isdigit:
-            #print('\n', name, '\n')
-            for x in name.split('.s'):
+    elif ('s' in name):
+        if  (name[(name.index('s')+1):(name.index('s')+3)] ).isdigit:
+            print('\n', name, '\n')
+            for x in name:
                 try:
-                    #print( name[(name.index('s')+1):(name.index('s')+3)] )
-                    seriesName = '/Series' + str((name[(name.index('.s')+2):(name.index('.s')+4)]))
-                    #seriesName = '/Series' + str(int(name[(name.index('s')+1):(name.index('s')+3)]))
-                    #print('\t\t\t', seriesName)
+                    seriesName = '/Series' + str(int(name[(name.index('s')+1):(name.index('s')+3)]))
                 except:
                     pass
-            baseName = (name.split('.s')[0]).title()
+            baseName = name.split('.s')[0]
             newName = baseName + seriesName
-    elif 1 == 2:
-        if (name[(name.index('.s')+2):(name.index('.s')+4)] ).isdigit:
-            pass
-    #print()
+    print()
     return newName
 
 def findAllFiles(inFolder, outFolder, fileDict=dict()):
@@ -75,12 +56,12 @@ def findAllFiles(inFolder, outFolder, fileDict=dict()):
             #dp.extend(dirpath)
             #print(filenames, '\t', inFolder, dirnames)
             for x in filenames:
-                #print( inFolder, ' ', x , ' ',parsNames(x) )
+                print( inFolder, ' ', x , ' ',parsNames(x) )
                 directory = (outFolder + parsNames(x))
                 if not os.path.exists(directory):
                     os.makedirs(directory)
                 # move or copy, select wisely
-                #print(x, ' ', directory)
+                print(x, ' ', directory)
                 # ToDo fix pathname slash for multi platform combatabilety
                 copyfile( (inFolder + '/' + x), (directory + '/' + x) )
                 #move( (inFolder + '/' + x), (directory + '/' + x) )
@@ -141,13 +122,26 @@ def clean(args):
     print()
     #print( list, '\n', len(list) )
     print( len(list) )
+  #  for (x) in list:
+  #      print(x)
+  #  print(list)
+    #directory = (outFolder + 'asd/asd/asd')
+    #if not os.path.exists(directory):
+    #    os.makedirs(directory)
     return 0
+
+#Read and list the incomming directory and file structure
+
+#Pars names of incoming files
+
+
+
 
 
 
 
 
 #os.system('rm -rf data/structured/*')
-#clean(sys.argv)
+clean(sys.argv)
 #clean(['runner', 'data/Down/', 'data/structured/']) #62 files
-clean(['runner', 'data/Download/', 'data/structured/']) #5198 files
+#clean('data/Download/', 'data/structured/') #5198 files
