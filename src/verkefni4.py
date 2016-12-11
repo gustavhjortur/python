@@ -120,8 +120,8 @@ def findAllFiles(inFolder, outFolder, counter=0 ):
             if not os.path.exists(directory):
                 os.makedirs(directory)
             # ToDo fix pathname slash for multi platform combatabilety
-            copyfile( (inFolder + '/' + x), (directory + '/' + x) )
-            #move( (inFolder + '/' + x), (directory + '/' + x) )
+            #copyfile( (inFolder + '/' + x), (directory + '/' + x) )
+            move( (inFolder + '/' + x), (directory + '/' + x) )
             counter += 1
             #print( '-', counter, '-', end="")
             lastDirectory = newDirectory
@@ -158,10 +158,6 @@ def clean(args):
     counter = findAllFiles(inFolder, outFolder)
     print( counter, 'files moved' )
     return 0
-
-
-
-
 
 #For test in "ide" (like idle) lin 2 or 3 below kan be used
 clean(sys.argv)
