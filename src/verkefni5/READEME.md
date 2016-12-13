@@ -1,5 +1,5 @@
-##Centris 2.0 - MySchool on the command line
-#Assignmend deskription
+#Centris 2.0 - MySchool on the command line
+##Assignmend deskription
 Create an API and a command line interface (CLI) for MySchool. Through the API you could, e.g.,
 
     list all courses you are taking,
@@ -29,5 +29,5 @@ Create an API and a command line interface (CLI) for MySchool. Through the API y
 
                     HTML forms that allow files to be uploaded, have the enctype attribute set to multipart/form-data, which specifies how the form data should be encoded when submitted to the server. If you use the requests library, it only encodes the data in this way if you specify a file to upload. If you only want to submit a comment to an assignment, and no files, then you must also submit an empty file to force the requests library to encode the data correctly. You can do this, for example, by including the named parameter files={ 'FILE': ('', '') } in the post request.
 
-# ToDo :
+## ToDo :
 - 
