@@ -275,8 +275,6 @@ import os, shutil
 import shutil
  copy, copy2, copytree, rmtree, move(rename), 
 
-import 
-
 
 # Day 6 - 1
 #apis.is
@@ -306,6 +304,8 @@ import urllib
 urllit.request.urlopen
 import urllib.request
 urllib.request.urlopen('http://....?'Name-'sdf')
+from urllib.request import urlopen
+from urllib.parse import urlencode
 
 import urllib.pars.urlencode
 #resp = urlopen('http...')
@@ -543,7 +543,7 @@ d = Data('asd', 123, 321)
 d.name  returnar 'asd'
 
 
-# Day 9 - 2
+# Day 8 - 2
 import traceback
                
 try:
@@ -574,7 +574,250 @@ pip-python3 search cowpy
 sudo pip-python3 install cowpy
 
 
+#Day 9 - 1
+
+#Request for http request ofl.
+#python3 -m pip search request
+#sudo python3 -m pip install request
+
+import requests
+svar = requests.get('http://dyraklam.is') #returnar status
+svar.content.decode('utf-8')
+
+svar = requests.get('http://apis.is/company?name=bifr')
+svar.json() #returnar json 
+def comps(name, address=''):
+               payload = {'name': name, 'address': address}
+               svar = request.get('thhp://apis.is/company', params=payload)
+               return svar.json()
+#scraping....
+from getpass import getpass
+
+def store_pass():
+    with open('supersecure', 'w') as f:
+        f.write(getpass())
+        
+def password():
+    return open('supersecure').read()
+
+requests.get('https://myschool.ru.is/myschool', auth=('gustav13', password()))
+
+payload = { 'kt': '6608922309' }
+kt = requests.post('https://myschool.ru.is/myschool/?Page=Exe&ID=1.10', auth=('gustav13', password()), data=payload )
+
+#Beautiful Soup for htmp parsing , hotar native en lxml er best
+#sudo pip-python3 install beautifulsoup4
+import bs4
+from bs4 import BeautifulSoup
+soup = BeautifulSoup(res.text, 'html.parser')
+#soup.table.td synir fyrstu toflu og tabledata, noexisting skilar None
+#soup.find(attrs={'class': 'ruSep'}) == soup.find('td', class_='ruSep')
+#td = soup.td geimir tableData en ekki texta eda strengi
+#td.attrs synir attribute, strengir eda listar (eins og dict)
+results =[ [td.text for td in tr('td')[:-1]] for tr in soup('center')[1].table('tr')[1:-1]]
+#kann lika a xml: soup = BeautifulSoup(markup, 'xml') tharf lxml
+
+
+session = requests.Session()
+#res = session.post('https://deildu.net/login.php', data={'username': 'gustav', 'password': password()})
+session.post('https://deildu.net/takelogin.php', data={'username': 'gustav', 'password': password()})
+#if ('gustav' in res.text) == True successful login
+res = session.get('https://deildu.net/index.php')
+soup2 = BeautifulSoup(res.text, 'html.parser')
+
+# Day 9 - 2
+
+#Added i verkefni2.py
+
+# Day 10 : No lecture
+# Day 11 - 1
+Tala[ um verkefni 5 og profid
+
+# Day 11 - 2
+
+#flask
+from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Hello World!"
+@app.route("/<name>")
+def hollo(name):
+    return "Hola %s!" % name
+
+if __name__ == "__main__":
+    app.run()  #debug=True, port=8080 are options herna
+
+#Til ad browsa files sja thedda
+#url_for('static', filename='style.css')
+#The file has to be stored on the filesystem as static/style.css.
+
+from flask import render_template
+
+#@app.route('/hello/')
+#@app.route('/hello/<name>')
+#def hello(name=None):
+#    return render_template('hello.html', name=name)
+#
+#Flask will look for templates in the templates folder. 
+#<!doctype html>
+#<title>Hello from Flask</title>
+#{% if name %}
+#  <h1>Hello {{ name }}!</h1>
+#{% else %}
+#  <h1>Hello, World!</h1>
+#{% endif %}
+
+
+#tkinter  A GUI framework
+#Lika til pyqt og pySide ss. python framework fyrir QT
+
+import tkinter as tk
+from tkinter import messagebox
+
+def event_generator(widget):
+    def event():
+        print(widget.row, widget.col)
+    return event
+
+class Application(tk.Frame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.pack()
+        self.create_widgets()
+
+    def color_changer(self, event):
+        #print(event.widget.row, event.widget.col)
+        event.widget['bg'] = 'red'
+
+    def clear_color(self, event):
+        event.widget['bg'] = 'white'
+
+    def toggle_color(self, event):
+        print('yay')
+        if event.widget.on:
+            event.widget.create_rectangle(5,5,45,45, fill='#CCCCCC')
+        else:
+            event.widget.create_rectangle(5,5,45,45, fill='blue')
+        event.widget.on = not event.widget.on
+        self.lbl['text'] = '(%d, %d)' % ( event.widget.row, event.widget.col )
+        messagebox.showinfo('WOW', '{%d, %d}' % ( event.widget.row, event.widget.col) )
+
+    def create_widgets(self):
+        self.lbl = tk.Label(self, text='Helllo, world!')
+        self.lbl.grid(row=0, column=0, columnspan=10)
+        
+        for r in range(10):
+            for c in range(10):
+##                self.btn = tk.Button(self,
+##                                     text="yay",
+##                                     bg="white",
+##                                     command=self.say_hi)
+                can = tk.Canvas(self, width=50, height=50, bg='white')
+                can.grid(row=r, column=c)
+                can.create_rectangle(5,5,45,45, fill='#CCCCCC')
+##                self.btn['command'] = event_generator(self.btn)
+##                self.btn.grid(row=r, column=c)
+##                self.btn.row = r
+##                self.btn.col = c
+                can.row = r
+                can.col = c
+                can.on = False
+##                self.btn.grid(row=r, column=c)
+##                self.btn.bind('<Enter>', self.color_changer)
+##                self.btn.bind('<Leave>', self.clear_color)
+                can.bind('<Enter>', self.color_changer)
+                can.bind('<Leave>', self.clear_color)
+                can.bind('<Button-1>', self.toggle_color)
+
+####        self.hi_there = tk.Button(self)
+####        self.hi_there["text"] = "Hello World\n(click me)"
+####        self.hi_there["command"] = self.say_hi
+####        self.hi_there.pack(side="top")
+####        self.quit = tk.Button(self, text="QUIT", fg="red",
+####                              command=root.destroy)
+####        self.quit.pack(side="bottom")
+
+    def say_hi(self, widget):
+        print(widget.row, widget.col)
+
+root = tk.Tk()
+app = Application(master=root)
+app.mainloop()
+
+
+# Day 12 - 1
+
+# Modular og pakkar,,, sidan hvernig vid b'uum til pip...
+
+
+#plib / passwordlib fyrir module smidapaelingar
+import random  #aetti ad nota secrets sem er secure random number generator
+from random import choice, randint
+from string import ascii_letters, digits, punctuation
+from pathlib import Path
+
+_non_punct = ascii_letters + digits
+_with_punct = _non_punct + punctuation
+
+_currdir = Path(__file__).parent #finnur parent dir (demo)
+_words_path = str(_currdir / 'data/all_words.txt')
+
+with open(_words_path, encoding='utf-8') as f:
+    words = f.read().splitlines()
+
+def random(minlen=5, maxlen=10, punct=False):
+    letters = [_non_punct, _with_punct][punct]
+    return ''.join( choice(letters) for _ in range(randint(minlen, maxlen)) )
+
+def xkcd(nwords=4, sep=' '):
+    return sep.join( choice(words) for _ in range(nwords) )
+
+if __name__ == '__main__':  #prentar ekki ut ef importad
+    print('welcom to shelllll')
+
+# for further demo see: T-308-prla/fyrirlestrar/python-lectures/day_12/modules
+
+##til ad importa fom place out of path ma gera
+#    import sys
+#    sys.path.insert(0,'..')  setur directoryid .. fremst i path
+#    import mystuff
+
+#Til ad sja dema um pakka sja T-308-prla/fyrirlestrar/python-lectures/day_12/plib
+
+# Day 12 - 2
+
+# Orstutt um pakka og virtual enviornment
+# Ypthon packaging user guide
+
+# Sja skrar i T-308-prla/fyrirlestrar/python-lectures/day_12/pip_test/plib/
+
+#sudo pip-python3 install virtualenv
+#virtualenv env
+#run "source env/bin/activate til ad starta 
+# thar er sidan pakkarnir
+#deactivate til ad exita.
+#
+#install from git 2 flavors
+#pip install https://github.com/hjalti/passwordlib/archive/master.zip
+#pip install git+https://github.com/hjalti/passwordlib.git
+#pip install git+https://github.com/hjalti/passwordlib.git@master velur master branch
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
