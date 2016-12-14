@@ -2,6 +2,7 @@
 *.zip
 tm*.*
 tmp/
+supersecure
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
