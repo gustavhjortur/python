@@ -232,7 +232,7 @@ def jam(texti):
         #print(returnDict)
         #print(returnDict.get( i ))
         if i == '':
-            print('!!!!!!!!!!!!!!!!!!!!!!!!   ', i)
+            #print('!!!!!!!!!!!!!!!!!!!!!!!!   ', i)
             pass
         elif returnDict.get( i ):
             tmp = returnDict[ i ]
@@ -246,26 +246,65 @@ def jam(texti):
     return returnDict
 
 
-jam("""1/1/1 22 December 1967, Nicholas Parsons with Derek Nimmo, Clement Freud, Wilma Ewart, excuses for being late.
-2/1/2 29 December 1967, Nicholas Parsons with Derek Nimmo, Clement Freud, Sheila Hancock and Carol Binstead, bedrooms.
-3/1/3 5 January 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Betty Marsden and Elisabeth Beresford, ?
-4/1/4 12 January 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Isobel Barnett and Bettine Le Beau, ?
-5/1/5 20 January 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Andree Melly and Prunella Scales, the brownies
-6/1/6 27 January 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Marjorie Proops and Millie Small, ?
-7/1/7 2 February 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Aimi Macdonald and Una Stubbs, my honeymoon.
-8/1/8 9 February 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Lucy Bartlett and Anona Winn, bloomer.
-9/1/9 17 February 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Andree Melly and Charmian Innes, ?
-10/1/10 23 February 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Barbara Blake and Renee Houston, my first grown-up dress.
-213/10/19 27 January 1976, Nicholas Parsons with Clement Freud, Peter Jones, Sheila Hancock and Graeme Garden, puppets.
-23/3/1 31 December 1968, Nicholas Parsons with Kenneth Williams, Derek Nimmo, Clement Freud and Geraldine Jones, ?
-22/2/6 4 November 1968, Nicholas Parsons with Kenneth Williams, Clement Freud and Geraldine Jones, Pythagoras.
-683/52/1 31 December 2007, Nicholas Parsons with Paul Merton, Kenneth Williams, Clement Freud and Graham Norton, plus Derek Nimmo, Peter Jones, Tony Hawks, Sheila Hancock, Gyles Brandreth, Julian Clary, Linda Smith, Jenny Eclair, Ross Noble, Stephen Fry, Chris Neill, Alfred Marks, Barry Took, Tommy Trinder, Kenny Everett and Bob Monkhouse, 40th anniversary special.
-245/11/26 27 April 1977, Nicholas Parsons with Kenneth Williams, Derek Nimmo, Clement Freud and Peter Jones, plus Ian Messiter, my dignity.""")
+##jam("""1/1/1 22 December 1967, Nicholas Parsons with Derek Nimmo, Clement Freud, Wilma Ewart, excuses for being late.
+##2/1/2 29 December 1967, Nicholas Parsons with Derek Nimmo, Clement Freud, Sheila Hancock and Carol Binstead, bedrooms.
+##3/1/3 5 January 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Betty Marsden and Elisabeth Beresford, ?
+##4/1/4 12 January 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Isobel Barnett and Bettine Le Beau, ?
+##5/1/5 20 January 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Andree Melly and Prunella Scales, the brownies
+##6/1/6 27 January 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Marjorie Proops and Millie Small, ?
+##7/1/7 2 February 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Aimi Macdonald and Una Stubbs, my honeymoon.
+##8/1/8 9 February 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Lucy Bartlett and Anona Winn, bloomer.
+##9/1/9 17 February 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Andree Melly and Charmian Innes, ?
+##10/1/10 23 February 1968, Nicholas Parsons with Derek Nimmo, Clement Freud, Barbara Blake and Renee Houston, my first grown-up dress.
+##213/10/19 27 January 1976, Nicholas Parsons with Clement Freud, Peter Jones, Sheila Hancock and Graeme Garden, puppets.
+##23/3/1 31 December 1968, Nicholas Parsons with Kenneth Williams, Derek Nimmo, Clement Freud and Geraldine Jones, ?
+##22/2/6 4 November 1968, Nicholas Parsons with Kenneth Williams, Clement Freud and Geraldine Jones, Pythagoras.
+##683/52/1 31 December 2007, Nicholas Parsons with Paul Merton, Kenneth Williams, Clement Freud and Graham Norton, plus Derek Nimmo, Peter Jones, Tony Hawks, Sheila Hancock, Gyles Brandreth, Julian Clary, Linda Smith, Jenny Eclair, Ross Noble, Stephen Fry, Chris Neill, Alfred Marks, Barry Took, Tommy Trinder, Kenny Everett and Bob Monkhouse, 40th anniversary special.
+##245/11/26 27 April 1977, Nicholas Parsons with Kenneth Williams, Derek Nimmo, Clement Freud and Peter Jones, plus Ian Messiter, my dignity.""")
+
+
+#6. Leist af hjalta
+import re
+from fractions import Fraction
+
+fraction_re = re.compile(r'[0-9]+ [0-9]+/[0-9]+|[0-9]+/[0-9]+|[0-9]+')
+
+
+def pars_fraction(f):
+    return sum([Fraction(x) for x in f.split()])
+
+def fraction_to_str(f):
+    ipart = int(f)
+    fpart = f - ipart
+    if ipart == 0 or fpart == 0:
+        return str(f)
+    else:
+        return '%s %s' % (ipart, fpart)
+    
+def scale(recipe, scalar):
+    scalar = Fraction(scalar)
+    def fraction_scaler(match):
+        amount = pars_fraction(match.group())
+        amount = amount * scalar
+        return fraction_to_str(amount)
+    return fraction_re.sub(fraction_scaler, recipe)
+    
 
 
 
+tests = [ ('''Ingredients
+    4 skinless, boneless chicken thighs
+    1/2 cup/300g soy sauce
+    12/2 cup ketchup
+    1/33 cup honey
+    3 1/4 cloves garlic, minced
+    100 teaspoon dried basil''', '1/2') ]
 
-
+for t in tests:
+    print('--------------')
+    print(t[0])
+    print('--------------')
+    print(scale(*t))
 
 
 
