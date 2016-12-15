@@ -805,7 +805,7 @@ if __name__ == '__main__':  #prentar ekki ut ef importad
 #pip install git+https://github.com/hjalti/passwordlib.git@master velur master branch
 
 
-
+# Day 13 : No lecture
 
 
 

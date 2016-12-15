@@ -51,7 +51,7 @@ def scoreCalc(table):
     table['bonus'] = bonusCalc(table)
     for x in table:
         if ( ( table[x] != None ) and ( x != 'spots') and ( x != 'sum') ):
-            print(x, table[x] )
+            #print(x, table[x] )
             sum += table[x]
     table['sum'] = sum
     return sum
@@ -98,31 +98,75 @@ def add2PairToTable(table, dice):
     sum2 = 0
     last = 0
     dice.sort(reverse=True)
-    print(dice)
+    #print(dice)
     for x in dice:
-        if last == x and sum2 == 0:
-            print('1', last, ' ', x)
-            sum1 = last + x
-        if last == x and last != sum1 / 2:
-            print('2', last, ' ', x)
+        if ( last == x and 0 != sum1 and sum2 == 0):
+            #print('2', last, ' ', x)
             sum2 = last + x
+        if ( last == x and sum2 == 0 ):
+            #print('1', last, ' ', x)
+            sum1 = last + x
         last = x
     updateTable(table, sum1 + sum2, '2pair')
+    return 0
 
 #Add the 3 of a kind to the score table
 def add3KindToTable(table, dice):
     if ( table['3kind'] != None ):
         return -1
+    dice.sort()
+    last1 = 0
+    last2 = 0
+    for x in dice:
+        if ( last1 == x ):
+            if (last2 == x ):
+                updateTable(table, last1 + last2 + x, '3kind')
+                return 0
+            last2 = last1
+        last1 = x
+    updateTable(table, 0, '3kind')
+    return 0
 
 #Add the 4 of a kind to the score table
 def add4KindToTable(table, dice):
     if ( table['4kind'] != None ):
         return -1
+    dice.sort()
+    last1 = 0
+    last2 = 0
+    last3 = 0
+    for x in dice:
+        if ( last1 == x ):
+            if (last2 == x ):
+                if (last3 == x ):
+                    updateTable(table, last1 + last2 + last3 + x, '4kind')
+                    return 0
+                last3 = last2
+            last2 = last1
+        last1 = x
+    updateTable(table, 0, '4kind')
+    return 0
 
 #Add the smal straight to the score table
 def addSStraightToTable(table, dice):
     if ( table['sstraight'] != None ):
         return -1
+    dice.sort()
+    last1 = 0
+    sum = 0
+    if ( dice[0] != 1 ):
+         updateTable(table, 0, 'sstraight')
+         return 0
+    for x in dice:
+        if ( (last1+1) == x ):
+             sum += x
+             last1 = x
+    if ( sum == 15 ):
+        updateTable(table, 15, 'sstraight')
+        return 0
+    updateTable(table, 0, 'sstraight')
+    return 0
+    
 
 #Add the large straight to the score table
 def addLStraightToTable(table, dice):
@@ -152,9 +196,14 @@ def addYatzyToTable(table, dice):
     return 0
 
 
+a = gameTable()
+b = gameTable()
+print(addSStraightToTable(a, [3,2,5,1,4]))
+print(a['sstraight'])
+print(addSStraightToTable(b, [3,2,5,1,3,3,3]))
+print(b['sstraight'])
 
-g = gameTable()
-for x in g:
+for x in a:
     #print(x)
     if (x == list(range(1,7))):
         print( list(range(1,6)), 'sdf', g[x])
