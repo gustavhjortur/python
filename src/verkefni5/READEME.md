@@ -10,7 +10,7 @@ Lets create two files, yatzy.py for the game functionalty and yatzy-gui.py for t
 - create gui for score bord.
 - find how to safe dice for round 2.
 - create computer player.
-
+- refactor functions for more python like look...
 
 
 

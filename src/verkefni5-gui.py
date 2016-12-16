@@ -30,7 +30,7 @@ class Application(tk.Frame):
         messagebox.showinfo('WOW', '{%d, %d}' % ( event.widget.row, event.widget.col) )
 
     def create_widgets(self):
-        self.button = Button(frame, text="QUIT", fg="red", command=quit)
+        #self.button = Button(frame, text="QUIT", fg="red", command=quit)
         self.lbl = tk.Label(self, text='Yatzy')
         self.lbl.grid(row=5000, column=0, columnspan=50)
         

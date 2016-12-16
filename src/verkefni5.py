@@ -34,7 +34,12 @@ def player():
     while myTable['spots'] > 0:
         print( myTable['spots'] )
         print(rolleDice(6))
-        myTable['spots'] -= 1
+        for x in myTable:
+            if ( x != 'spots' and x != 'bonus' ):
+                addNumbToTable(myTable, rolleDice(6), x)
+                #while myTable['spots'] < 0:
+                myTable['spots'] -= 1
+    print(myTable)
     return 0
 
 def bonusCalc(table):
@@ -51,7 +56,6 @@ def scoreCalc(table):
     table['bonus'] = bonusCalc(table)
     for x in table:
         if ( ( table[x] != None ) and ( x != 'spots') and ( x != 'sum') ):
-            #print(x, table[x] )
             sum += table[x]
     table['sum'] = sum
     return sum
@@ -87,7 +91,6 @@ def add1PairToTable(table, dice):
             return 0
         last = x
     updateTable(table, sum, '1pair')
-    print(dice)
     return 0
 
 #Add the 2 pair to the score table
@@ -98,15 +101,14 @@ def add2PairToTable(table, dice):
     sum2 = 0
     last = 0
     dice.sort(reverse=True)
-    #print(dice)
     for x in dice:
-        if ( last == x and 0 != sum1 and sum2 == 0):
-            #print('2', last, ' ', x)
+        if ( last == x and sum1 != 0 and sum2 == 0 and sum1/2 != x):
             sum2 = last + x
         if ( last == x and sum2 == 0 ):
-            #print('1', last, ' ', x)
             sum1 = last + x
         last = x
+    if ( sum1 == 0 or sum2 == 0 ):
+        sum1 = sum2 = 0
     updateTable(table, sum1 + sum2, '2pair')
     return 0
 
@@ -172,16 +174,73 @@ def addSStraightToTable(table, dice):
 def addLStraightToTable(table, dice):
     if ( table['lstraight'] != None ):
         return -1
+    dice.sort()
+    last1 = 1
+    sum = 0
+    if ( (dice[0] != 2) and (dice[1] != 2) ):
+        updateTable(table, 0, 'lstraight')
+        return 0
+    for x in dice:
+        if ( (last1+1) == x ):
+            sum += x
+            last1 = x
+    if ( sum == 20 ):
+        updateTable(table, 20, 'lstraight')
+        return 0
+    updateTable(table, 0, 'lstraight')
+    return 0
 
 #Add the fullhouse to the score table
-def addFullHousePairToTable(table, dice):
-    if ( table['fullhous'] != None ):
+def addFullHouseToTable(table, dice):
+    if ( table['fullhouse'] != None ):
         return -1
+    sum1 = 0
+    dice1Count = 1
+    sum2 = 0
+    dice2Count = 1
+    last = 0
+    i = 1
+    dice.sort(reverse=True)
+    print('\t',dice)
+    for x in dice:
+        # ef ( last == x AND ekkert bar fundid 
+        if ( (last == x and dice1Count == 1) ):
+            sum1 = last + x
+            dice1Count += 1
+            #print('\t fyrri, sum2: ', sum2)
+        elif ( last == x and sum1/2 == x and dice1Count == 2 ):
+            sum1 += x
+            dice1Count += 1
+        # ef ( last == x AND sum2 == 0 ) OR x == sum1/2
+        elif ( last == x and dice2Count == 1 and x != sum1/3 ):
+            sum2 = last + x
+            dice2Count += 1
+            #print('\t seinni, sum1: ', sum1)
+        elif ( last == x and sum2/2 == x and dice2Count == 2 ):
+            sum2 += x
+            dice2Count += 1
+        last = x
+        #print('\t\t i: ', i, dice1Count, dice2Count)
+        i += 1
+    if ( (dice1Count + dice2Count) != 5 ):
+        sum1 = sum2 = 0
+    updateTable(table, sum1 + sum2, 'fullhouse')
+    return 0
+
+
+
+
+
 
 #Add the chance to the score table
 def addChanceToTable(table, dice):
     if ( table['chance'] != None ):
         return -1
+    sum = 0
+    for x in dice:
+        sum += x
+    updateTable(table, sum, 'chance')
+    return 0
 
 #Add the yatzy to the score table
 def addYatzyToTable(table, dice):
@@ -198,10 +257,11 @@ def addYatzyToTable(table, dice):
 
 a = gameTable()
 b = gameTable()
-print(addSStraightToTable(a, [3,2,5,1,4]))
-print(a['sstraight'])
-print(addSStraightToTable(b, [3,2,5,1,3,3,3]))
-print(b['sstraight'])
+#print('Test start')
+#print(addChanceToTable(a, [3,3,5,5,5]))
+#print(a['chance'], ' 21?' )
+#print(addChanceToTable(b, [3,2,5,1,3,3,3]))
+#print(b['chance'], ' 20?')
 
 for x in a:
     #print(x)
