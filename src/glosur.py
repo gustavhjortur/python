@@ -292,7 +292,7 @@ import sqlite3
 
 
 import csv
- open('fil', encodinc) af f:
+ open('fil', encodinc) as f:
      read = csv.reader(f)
      csvdata = list(reader)
 DictReader
