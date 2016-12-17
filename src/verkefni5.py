@@ -7,23 +7,23 @@ def rolleDice(count):
 
 def gameTable():
     return {
-        1: None,
-        2: None,
-        3: None,
-        4: None,
-        5: None,
-        6: None,
-        'bonus': None,
-        '1pair': None,
-        '2pair': None,
-        '3kind': None,
-        '4kind': None,
-        'sstraight': None,
-        'lstraight': None,
-        'fullhouse': None,
-        'chance': None,
-        'yatzy': None,
-        'sum': None,
+        1: -1,
+        2: -1,
+        3: -1,
+        4: -1,
+        5: -1,
+        6: -1,
+        'bonus': -1,
+        '1pair': -1,
+        '2pair': -1,
+        '3kind': -1,
+        '4kind': -1,
+        'sstraight': -1,
+        'lstraight': -1,
+        'fullhouse': -1,
+        'chance': -1,
+        'yatzy': -1,
+        'sum': -1,
         'spots': 15
         }
     
@@ -45,7 +45,7 @@ def player():
 def bonusCalc(table):
     sum = 0
     for x in range(1,7):
-        if ( table[x] != None ):
+        if ( table[x] != -1 ):
             sum += table[x]
             if ( sum > 63 ):
                 return 50
@@ -55,7 +55,7 @@ def scoreCalc(table):
     sum = 0
     table['bonus'] = bonusCalc(table)
     for x in table:
-        if ( ( table[x] != None ) and ( x != 'spots') and ( x != 'sum') ):
+        if ( ( table[x] != -1 ) and ( x != 'spots') and ( x != 'sum') ):
             sum += table[x]
     table['sum'] = sum
     return sum
@@ -68,7 +68,7 @@ def updateTable(table, sum, spot):
 
 #Add the simple one, two,...six to the score table
 def addNumbToTable(table, dice, numb):
-    if ( table[numb] != None ):
+    if ( table[numb] != -1 ):
         return -1
     sum = 0
     for x in dice:
@@ -79,7 +79,7 @@ def addNumbToTable(table, dice, numb):
 
 #Add the 1 pair to the score table
 def add1PairToTable(table, dice):
-    if ( table['1pair'] != None ):
+    if ( table['1pair'] != -1 ):
         return -1
     sum = 0
     last = 0
@@ -95,7 +95,7 @@ def add1PairToTable(table, dice):
 
 #Add the 2 pair to the score table
 def add2PairToTable(table, dice):
-    if ( table['2pair'] != None ):
+    if ( table['2pair'] != -1 ):
         return -1
     sum1 = 0
     sum2 = 0
@@ -114,7 +114,7 @@ def add2PairToTable(table, dice):
 
 #Add the 3 of a kind to the score table
 def add3KindToTable(table, dice):
-    if ( table['3kind'] != None ):
+    if ( table['3kind'] != -1 ):
         return -1
     dice.sort()
     last1 = 0
@@ -131,7 +131,7 @@ def add3KindToTable(table, dice):
 
 #Add the 4 of a kind to the score table
 def add4KindToTable(table, dice):
-    if ( table['4kind'] != None ):
+    if ( table['4kind'] != -1 ):
         return -1
     dice.sort()
     last1 = 0
@@ -151,7 +151,7 @@ def add4KindToTable(table, dice):
 
 #Add the smal straight to the score table
 def addSStraightToTable(table, dice):
-    if ( table['sstraight'] != None ):
+    if ( table['sstraight'] != -1 ):
         return -1
     dice.sort()
     last1 = 0
@@ -172,7 +172,7 @@ def addSStraightToTable(table, dice):
 
 #Add the large straight to the score table
 def addLStraightToTable(table, dice):
-    if ( table['lstraight'] != None ):
+    if ( table['lstraight'] != -1 ):
         return -1
     dice.sort()
     last1 = 1
@@ -192,7 +192,7 @@ def addLStraightToTable(table, dice):
 
 #Add the fullhouse to the score table
 def addFullHouseToTable(table, dice):
-    if ( table['fullhouse'] != None ):
+    if ( table['fullhouse'] != -1 ):
         return -1
     sum1 = 0
     dice1Count = 1
@@ -234,7 +234,7 @@ def addFullHouseToTable(table, dice):
 
 #Add the chance to the score table
 def addChanceToTable(table, dice):
-    if ( table['chance'] != None ):
+    if ( table['chance'] != -1 ):
         return -1
     sum = 0
     for x in dice:
@@ -244,7 +244,7 @@ def addChanceToTable(table, dice):
 
 #Add the yatzy to the score table
 def addYatzyToTable(table, dice):
-    if ( table['yatzy'] != None ):
+    if ( table['yatzy'] != -1 ):
         return -1
     first = dice[0]
     for x in dice:

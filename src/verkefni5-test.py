@@ -42,7 +42,7 @@ assert yatzy.scoreCalc(b) == 133
 assert yatzy.add3KindToTable(a, [3,4,5,4,4,3]) == 0
 assert a['3kind'] == 12
 assert yatzy.add3KindToTable(a, [3,4,5,4,4,3]) == -1
-assert b['3kind'] == None
+assert b['3kind'] == -1
 assert yatzy.add3KindToTable(b, [3,4,5,4,6,3]) == 0
 assert yatzy.add3KindToTable(b, [3,4,5,4,4,3]) == -1
 assert b['3kind'] == 0
@@ -54,7 +54,7 @@ assert yatzy.scoreCalc(b) == 133
 assert yatzy.add4KindToTable(a, [3,4,5,4,4,4]) == 0
 assert a['4kind'] == 16
 assert yatzy.add4KindToTable(a, [3,4,5,4,4,3]) == -1
-assert b['4kind'] == None
+assert b['4kind'] == -1
 assert yatzy.add4KindToTable(b, [3,4,5,4,6,3]) == 0
 assert yatzy.add4KindToTable(b, [3,4,5,4,4,3]) == -1
 assert b['4kind'] == 0
@@ -65,7 +65,7 @@ assert yatzy.scoreCalc(b) == 133
 assert yatzy.addSStraightToTable(a, [3,4,5,1,4,2]) == 0
 assert a['sstraight'] == 15
 assert yatzy.addSStraightToTable(a, [3,4,5,4,4,3]) == -1
-assert b['sstraight'] == None
+assert b['sstraight'] == -1
 assert yatzy.addSStraightToTable(b, [2,4,5,4,6,3]) == 0
 assert yatzy.addSStraightToTable(b, [1,2,5,4,6,3]) == -1
 assert b['sstraight'] == 0
@@ -76,7 +76,7 @@ assert yatzy.scoreCalc(b) == 133
 assert yatzy.addLStraightToTable(a, [3,4,5,1,6,2]) == 0
 assert a['lstraight'] == 20
 assert yatzy.addLStraightToTable(a, [3,4,5,4,4,3]) == -1
-assert b['lstraight'] == None
+assert b['lstraight'] == -1
 assert yatzy.addLStraightToTable(b, [2,4,4,4,6,3]) == 0
 assert yatzy.addLStraightToTable(b, [1,2,5,4,6,3]) == -1
 assert b['lstraight'] == 0
@@ -91,7 +91,7 @@ assert yatzy.scoreCalc(c) == 0
 assert yatzy.addFullHouseToTable(a, [3,4,5,5,5,3]) == 0
 assert a['fullhouse'] == 21
 assert yatzy.addFullHouseToTable(a, [3,4,5,4,4,3]) == -1
-assert b['fullhouse'] == None
+assert b['fullhouse'] == -1
 assert yatzy.addFullHouseToTable(b, [2,4,4,4,6,3]) == 0
 assert yatzy.addFullHouseToTable(b, [1,2,5,4,6,3]) == -1
 assert b['fullhouse'] == 0
@@ -107,7 +107,7 @@ assert yatzy.scoreCalc(c) == 22
 assert yatzy.addChanceToTable(a, [3,4,5,5,5,3]) == 0
 assert a['chance'] == 25
 assert yatzy.addChanceToTable(a, [6,4,5,4,4,3]) == -1
-assert b['chance'] == None
+assert b['chance'] == -1
 assert yatzy.addChanceToTable(b, [6,6,4,4,6,6]) == 0
 assert yatzy.addChanceToTable(b, [1,2,5,4,6,3]) == -1
 assert b['chance'] == 32
