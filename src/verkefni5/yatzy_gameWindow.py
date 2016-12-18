@@ -1,20 +1,67 @@
-import gi
+import gi, sys
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 import yatzy as y
 
-texti = 'Alfa'
-texti2 = 'Bravo'
-texti3 = 'Charli'
-texti4 = 'Delta'
+'''
+    gtk grid bord with unfinised functions and bugs. :(
+'''
+
+#Temporary variables for bord construction and initialization. 
+texti = 'Player 1'
+texti2 = 'Player 2'
+texti3 = 'Player 3'
+texti4 = 'Player 4'
 Player1 = 'Player1'
 Player2 = 'Player2'
 Player3 = 'Player3'
 Player4 = 'Player4'
 
+#The game users/players:
 p1 = y.gameTable()
+p2 = y.gameTable()
+p3 = y.gameTable()
+p4 = y.gameTable()
+
+diceValue = [ 0, 0, 0, 0, 0]
 
 class GameWindow(Gtk.Window):
+
+    def buttonQuitClicked(self, widget):
+        print("So long and thank's for all the fish")
+        sys.exit()
+
+    def buttonHelpClicked(self, widget):
+        class Dialog(Gtk.Dialog):
+            def __init__(self):
+                Gtk.Dialog.__init__(self)
+                self.set_title("Help")
+                self.set_default_size(400, 300)
+                self.add_button("OK", Gtk.ResponseType.OK)
+                self.connect("response", self.on_response)
+
+                label = Gtk.Label("""
+            Don't panic, This is perfectly safe.
+
+            To enter a player's name: clik on the PlayerN and enter a name
+              leve empty if not needed.
+            Click on the dice you want to save in round two.
+
+            ...This and more to come once the game is finished""")
+                
+                self.vbox.add(label)
+                self.show_all()
+
+            def on_response(self, dialog, response):
+                dialog.destroy()
+
+        dialog = Dialog()
+        dialog.run()
+
+    def buttonThrowClicked(self, widget, numb=5):
+        global diceValue
+        diceValue = y.rolleDice(numb)
+        print(diceValue)
 
     def __init__(self):
         Gtk.Window.__init__(self, title="- Yatzy game bord -")
@@ -22,25 +69,35 @@ class GameWindow(Gtk.Window):
         grid = Gtk.Grid()
         self.add(grid)
 
+        # Why do thees need to be here?
+        def buttonThrowClicked(self, widget):
+            pass
+        def buttonHelpClicked(self, widget):
+            pass
+        def buttonQuitClicked(self, widget):
+            pass
+
         button1_1 = Gtk.Button(label="Reset Game")
         button2_1 = Gtk.Button(label=texti)
         button3_1 = Gtk.Button(label=texti2)
         button4_1 = Gtk.Button(label=texti3)
         button5_1 = Gtk.Button(label=texti4)
-
-        label1_19 = 'Dice 1: ' + 'ha'
+        button2_20 = Gtk.Button(label=('throw') ); button2_20.connect("clicked", self.buttonThrowClicked)
+        button3_20 = Gtk.Button(label=('help') ); button3_20.connect("clicked", self.buttonHelpClicked)
+        button4_20 = Gtk.Button(label=('quit') ); button4_20.connect("clicked", self.buttonQuitClicked)
+        buttonQuitClicked
+                
+        label1_19 = 'Dice 1: ' + str(diceValue[0])
         button1_19 = Gtk.Button(label=label1_19)
-        label2_19 = 'Dice 2: ' + 'ha'
+        label2_19 = 'Dice 2: ' + str(diceValue[1])
         button2_19 = Gtk.Button(label=label2_19)
-        label3_19 = 'Dice 3: ' + 'ha'
+        label3_19 = 'Dice 3: ' + str(diceValue[2])
         button3_19 = Gtk.Button(label=label3_19)
-        label4_19 = 'Dice 4: ' + 'ha'
+        label4_19 = 'Dice 4: ' + str(diceValue[3])
         button4_19 = Gtk.Button(label=label4_19)
-        label5_19 = 'Dice 5: ' + 'ha'
+        label5_19 = 'Dice 5: ' + str(diceValue[4])
         button5_19 = Gtk.Button(label=label5_19)
 
-        
-        #button3 = Gtk.Button(label="Button 3")
         button1_2 = Gtk.Entry(); button1_2.set_text('1');button1_2.set_property("editable", False)
         button1_3 = Gtk.Entry(); button1_3.set_text('2');button1_3.set_property("editable", False)
         button1_4 = Gtk.Entry(); button1_4.set_text('3');button1_4.set_property("editable", False)
@@ -76,7 +133,6 @@ class GameWindow(Gtk.Window):
         button2_16 = Gtk.Entry(); button2_16.set_text(Player1);button2_16.set_property("editable", False)
         button2_17 = Gtk.Entry(); button2_17.set_text(Player1);button2_17.set_property("editable", False)
         button2_18 = Gtk.Entry(); button2_18.set_text(Player1);button2_18.set_property("editable", False)
-        
 
         button3_2 = Gtk.Entry(); button3_2.set_text(Player2);button3_2.set_property("editable", False)
         button3_3 = Gtk.Entry(); button3_3.set_text(Player2);button3_3.set_property("editable", False)
@@ -132,12 +188,6 @@ class GameWindow(Gtk.Window):
         button5_17 = Gtk.Entry(); button5_17.set_text(Player4);button5_17.set_property("editable", False)
         button5_18 = Gtk.Entry(); button5_18.set_text(Player4);button5_18.set_property("editable", False)
 
-
-
-        #button4 = Gtk.Entry(); button4.set_text('4');button4.set_property("editable", False)
-        button5 = Gtk.Button(label="Button 5")
-        button6 = Gtk.Button(label="Button 6")
-
         grid.add(button1_1)
         grid.attach(button2_1, 1, 0, 1, 1)
         grid.attach(button3_1, 2, 0, 2, 1)
@@ -181,6 +231,7 @@ class GameWindow(Gtk.Window):
         grid.attach_next_to(button2_17, button2_16, Gtk.PositionType.BOTTOM, 1, 1)
         grid.attach_next_to(button2_18, button2_17, Gtk.PositionType.BOTTOM, 1, 1)
         grid.attach_next_to(button2_19, button2_18, Gtk.PositionType.BOTTOM, 1, 1)
+        grid.attach_next_to(button2_20, button2_19, Gtk.PositionType.BOTTOM, 1, 1)
         
         grid.attach_next_to(button3_2, button3_1, Gtk.PositionType.BOTTOM, 1, 1)
         grid.attach_next_to(button3_3, button3_2, Gtk.PositionType.BOTTOM, 1, 1)
@@ -201,6 +252,7 @@ class GameWindow(Gtk.Window):
         grid.attach_next_to(button3_17, button3_16, Gtk.PositionType.BOTTOM, 1, 1)
         grid.attach_next_to(button3_18, button3_17, Gtk.PositionType.BOTTOM, 1, 1)
         grid.attach_next_to(button3_19, button3_18, Gtk.PositionType.BOTTOM, 1, 1)
+        grid.attach_next_to(button3_20, button3_19, Gtk.PositionType.BOTTOM, 1, 1)
 
         grid.attach_next_to(button4_2, button4_1, Gtk.PositionType.BOTTOM, 1, 1)
         grid.attach_next_to(button4_3, button4_2, Gtk.PositionType.BOTTOM, 1, 1)
@@ -221,6 +273,7 @@ class GameWindow(Gtk.Window):
         grid.attach_next_to(button4_17, button4_16, Gtk.PositionType.BOTTOM, 1, 1)
         grid.attach_next_to(button4_18, button4_17, Gtk.PositionType.BOTTOM, 1, 1)
         grid.attach_next_to(button4_19, button4_18, Gtk.PositionType.BOTTOM, 1, 1)
+        grid.attach_next_to(button4_20, button4_19, Gtk.PositionType.BOTTOM, 1, 1)
 
         grid.attach_next_to(button5_2, button5_1, Gtk.PositionType.BOTTOM, 1, 1)
         grid.attach_next_to(button5_3, button5_2, Gtk.PositionType.BOTTOM, 1, 1)
@@ -242,12 +295,11 @@ class GameWindow(Gtk.Window):
         grid.attach_next_to(button5_18, button5_17, Gtk.PositionType.BOTTOM, 1, 1)
         grid.attach_next_to(button5_19, button5_18, Gtk.PositionType.BOTTOM, 1, 1)
 
-
-        #grid.attach_next_to(button4, button1_2, Gtk.PositionType.RIGHT, 2, 1)
-        #grid.attach(button5, 1, 2, 1, 1)
-        #grid.attach_next_to(button6, button5, Gtk.PositionType.RIGHT, 1, 1)
+        grid.show_all()
 
 win = GameWindow()
 win.connect("delete-event", Gtk.main_quit)
 win.show_all()
 Gtk.main()
+
+    

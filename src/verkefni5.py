@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 import random, copy, itertools
 
+'''
+    Yatzy game logic
+    Start the gameWindow
+'''
 
 def rolleDice(count):
     return [ random.randint(1,6) for x in range(count) ]
@@ -26,21 +30,6 @@ def gameTable():
         'sum': -1,
         'spots': 15
         }
-    
-
-def player():
-    myTable = copy.deepcopy(gameTable())
-    print(myTable)
-    while myTable['spots'] > 0:
-        print( myTable['spots'] )
-        print(rolleDice(6))
-        for x in myTable:
-            if ( x != 'spots' and x != 'bonus' ):
-                addNumbToTable(myTable, rolleDice(6), x)
-                #while myTable['spots'] < 0:
-                myTable['spots'] -= 1
-    print(myTable)
-    return 0
 
 def bonusCalc(table):
     sum = 0
@@ -62,7 +51,7 @@ def scoreCalc(table):
 
 def updateTable(table, sum, spot):
     table[spot] = sum
-    table['spots'] -= table['spots']
+    table['spots'] -= 1
     scoreCalc(table)
     return 0
 
@@ -201,36 +190,25 @@ def addFullHouseToTable(table, dice):
     last = 0
     i = 1
     dice.sort(reverse=True)
-    print('\t',dice)
     for x in dice:
-        # ef ( last == x AND ekkert bar fundid 
         if ( (last == x and dice1Count == 1) ):
             sum1 = last + x
             dice1Count += 1
-            #print('\t fyrri, sum2: ', sum2)
         elif ( last == x and sum1/2 == x and dice1Count == 2 ):
             sum1 += x
             dice1Count += 1
-        # ef ( last == x AND sum2 == 0 ) OR x == sum1/2
         elif ( last == x and dice2Count == 1 and x != sum1/3 ):
             sum2 = last + x
             dice2Count += 1
-            #print('\t seinni, sum1: ', sum1)
         elif ( last == x and sum2/2 == x and dice2Count == 2 ):
             sum2 += x
             dice2Count += 1
         last = x
-        #print('\t\t i: ', i, dice1Count, dice2Count)
         i += 1
     if ( (dice1Count + dice2Count) != 5 ):
         sum1 = sum2 = 0
     updateTable(table, sum1 + sum2, 'fullhouse')
     return 0
-
-
-
-
-
 
 #Add the chance to the score table
 def addChanceToTable(table, dice):
@@ -254,17 +232,7 @@ def addYatzyToTable(table, dice):
     updateTable(table, 50, 'yatzy')
     return 0
 
-
-a = gameTable()
-b = gameTable()
-#print('Test start')
-#print(addChanceToTable(a, [3,3,5,5,5]))
-#print(a['chance'], ' 21?' )
-#print(addChanceToTable(b, [3,2,5,1,3,3,3]))
-#print(b['chance'], ' 20?')
-
-for x in a:
-    #print(x)
-    if (x == list(range(1,7))):
-        print( list(range(1,6)), 'sdf', g[x])
-
+# The game is played from the gameWindow (I wish)
+def starter():
+    import yatzy_gameWindow as yg
+starter()

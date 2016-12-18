@@ -1,11 +1,9 @@
+#!/usr/bin/env python3
 import yatzy
 
 a = yatzy.gameTable()
 b = yatzy.gameTable()
 c = yatzy.gameTable()
-
-print(yatzy.rolleDice(6))
-print(yatzy.rolleDice(6))
 
 #Add the simple one, two,...six to the score table
 assert yatzy.addNumbToTable(a, [1,2,3,4,5,6], 1) == 0
@@ -121,7 +119,7 @@ assert yatzy.addYatzyToTable(b, [4,4,4,4,3,4]) == 0
 assert yatzy.addYatzyToTable(b, [4,4,4,4,4,4]) == -1
 assert yatzy.scoreCalc(a) == 208
 assert yatzy.scoreCalc(b) == 165
-
+assert yatzy.scoreCalc(c) == 22
 
 
 
